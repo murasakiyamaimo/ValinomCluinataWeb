@@ -677,7 +677,7 @@ const ValinomCluinataEditor = () => {
 
             {/* Canvas */}
             <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden">
-              <div className="w-full h-96 overflow-auto">
+              <div className="w-full flex-grow overflow-auto">
                 <canvas
                     ref={canvasRef}
                     width={width}
