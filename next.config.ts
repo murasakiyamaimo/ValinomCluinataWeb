@@ -1,11 +1,12 @@
 import type { NextConfig } from "next";
 
+const isExport = process.env.NEXT_EXPORT === 'true';
 
 const nextConfig: NextConfig = {
   /* config options here */
     output:"export",
-    basePath: '/murasakiyamaimo.github.io',
-    assetPrefix: '/murasakiyamaimo.github.io/' ,
+    basePath: isExport ? '/ValinomCluinataWeb' : '',
+    assetPrefix: isExport ? '/ValinomCluinataWeb/' : '',
     trailingSlash: true,
 };
 
