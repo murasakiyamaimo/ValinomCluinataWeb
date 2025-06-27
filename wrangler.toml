@@ -1,0 +1,5 @@
+# wrangler.toml
+name = "valinomcluinata"
+compatibility_date = "2025-06-27" # 最新の日付に更新
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static" # ここでビルド出力ディレクトリを指定
