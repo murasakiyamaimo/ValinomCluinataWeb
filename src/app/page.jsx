@@ -345,15 +345,15 @@ const ValinomCluinataEditor = () => {
         const height = 392;
         ctx.beginPath();
         if (isUp) {
-          ctx.moveTo(nodeX, nodeY);
-          ctx.lineTo(nodeX + 157, nodeY - height);
-          ctx.lineTo(nodeX + 173, nodeY - height);
-          ctx.lineTo(nodeX + 16, nodeY);
+          ctx.moveTo(nodeX + 173, nodeY); // 例: 元々右端だったX座標を始点にする
+          ctx.lineTo(nodeX + 16, nodeY - height); // 左上の頂点
+          ctx.lineTo(nodeX, nodeY - height);       // さらに左上の頂点
+          ctx.lineTo(nodeX + 157, nodeY);
         } else {
-          ctx.moveTo(nodeX, nodeY);
-          ctx.lineTo(nodeX + 157, nodeY + height);
-          ctx.lineTo(nodeX + 173, nodeY + height);
-          ctx.lineTo(nodeX + 16, nodeY);
+          ctx.moveTo(nodeX + 173, nodeY); // 例: 元々右端だったX座標から上に伸びた点を始点にする
+          ctx.lineTo(nodeX + 16, nodeY + height);           // 左下の頂点
+          ctx.lineTo(nodeX, nodeY + height);                // さらに左下の頂点
+          ctx.lineTo(nodeX + 157, nodeY); // 始点と結ぶためのX座標
         }
         ctx.closePath();
         ctx.fill();
@@ -619,6 +619,16 @@ const ValinomCluinataEditor = () => {
       </button>
   );
 
+  useEffect(() => {
+    const pc = document.getElementById("pitch-controls");
+    const cc = document.getElementById("canvas-container");
+
+    if (pc && cc) {
+      cc.style.height = `${pc.offsetHeight}px`;
+    }
+  }, []);
+
+
   return (
       <div className="min-h-screen bg-gray-900 text-white">
         <div className="p-4">
@@ -655,9 +665,9 @@ const ValinomCluinataEditor = () => {
             </select>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex flex-row gap-4 items-start">
             {/* Pitch Controls */}
-            <div className="bg-gray-800 p-4 rounded-lg">
+            <div className="bg-gray-800 p-4 rounded-lg" id="pitch-controls">
               <h3 className="text-lg font-semibold mb-4">Pitch Controls</h3>
               <div className="text-sm mb-2">Mode: {isPitch ? 'Pitch Shift' : 'Add Note'}</div>
               <div className="text-xs mb-4 text-gray-400">Press Shift to toggle mode</div>
@@ -676,8 +686,8 @@ const ValinomCluinataEditor = () => {
             </div>
 
             {/* Canvas */}
-            <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden">
-              <div className="w-full flex-grow overflow-auto">
+            <div className="flex-1 bg-gray-800 rounded-lg overflow-auto self-stretch" id="canvas-container">
+              <div className="w-full">
                 <canvas
                     ref={canvasRef}
                     width={width}
