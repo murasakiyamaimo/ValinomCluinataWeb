@@ -37,12 +37,12 @@ export default function Page(){
                     </div>
 
                     {/*About*/}
-                    <div className={"col-span-1 md:col-span-1 row-span-1 md:row-span-2 min-h-32 md:min-h-auto bg-gradient-to-br from-amber-200 to-amber-400 rounded-2xl md:rounded-3xl shadow-md hover:shadow-2xl transition-shadow"}>
+                    <Link href={"https://lamplight0.sakura.ne.jp/a/"} target={"_blank"} className={"col-span-1 md:col-span-1 row-span-1 md:row-span-2 min-h-32 md:min-h-auto bg-gradient-to-br from-amber-200 to-amber-400 rounded-2xl md:rounded-3xl shadow-md hover:shadow-2xl transition-shadow"}>
                         <div className={"h-full p-4 md:p-6 text-white flex flex-col justify-center items-center"}>
                             <div className={"text-lg md:text-3xl"}>About</div>
                             <div className={"text-lg md:text-3xl"}>LAMPLIGHT</div>
                         </div>
-                    </div>
+                    </Link>
                 </main>
                 <footer className={"w-full p-4 md:p-6 flex flex-col md:flex-row min-h-16 md:min-h-24 mt-6 md:mt-10 justify-between items-center space-y-2 md:space-y-0"}>
                     <div className={"text-lg md:text-xl font-bold"}>ValinomCluinata</div>
