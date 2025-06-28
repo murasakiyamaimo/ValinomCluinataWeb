@@ -8,7 +8,7 @@ export default function Page(){
                 <header className={"w-full p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between"}>
                     <Link href={"/"} className={"text-xl md:text-3xl font-bold"}>ValinomCluinata</Link>
                     <div className={"w-full justify-end flex space-x-2 md:space-x-3"}>
-                        <Link href={"http://valinomcluinata.murasakiyamaimo.net/wp-content/uploads/2025/05/ValinomCluinata.zip"} className={"text-sm md:text-base font-bold"}>ダウンロード</Link>
+                        <a download target="_blank" rel="noopener noreferrer" href={"http://valinomcluinata.murasakiyamaimo.net/wp-content/uploads/2025/05/ValinomCluinata.zip"} className={"text-sm md:text-base font-bold"}>ダウンロード</a>
                         <Link href={"/editor"} className={"text-sm md:text-base font-bold"}>ブラウザ版</Link>
                     </div>
                 </header>
@@ -20,9 +20,9 @@ export default function Page(){
                         <div className={"absolute w-full h-full rounded-2xl md:rounded-3xl opacity-30 dark:opacity-40 bg-black"}></div>
                         <div className={"absolute w-full h-full rounded-2xl md:rounded-3xl flex flex-col hover:backdrop-blur-xs space-y-4 md:space-y-6 justify-center items-center transition-all duration-500"}>
                             <div className={"pt-12 md:pt-24 text-white text-sm md:text-base"}>Thanks to LAMPLIGHT</div>
-                            <Link href={"http://valinomcluinata.murasakiyamaimo.net/wp-content/uploads/2025/05/ValinomCluinata.zip"}>
+                            <a download target="_blank" rel="noopener noreferrer" href={"http://valinomcluinata.murasakiyamaimo.net/wp-content/uploads/2025/05/ValinomCluinata.zip"}>
                                 <button className={"p-2 md:p-3 bg-white text-black rounded-lg text-sm md:text-base"}>ダウンロード</button>
-                            </Link>
+                            </a>
                         </div>
                     </div>
 
