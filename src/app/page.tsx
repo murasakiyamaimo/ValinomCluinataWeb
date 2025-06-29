@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import HowToUse from "@/components/How to use";
+import Download from "@/components/Download";
 
 export default function Page(){
     return(
@@ -14,29 +15,13 @@ export default function Page(){
                     </div>
                 </header>
                 <main
-                    className={"w-full p-4 md:p-6 grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-5 gap-4 md:gap-6"}>
+                    className={"w-full p-6 grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-5 gap-4 md:gap-6"}>
 
                     {/*ダウンロード*/}
-                    <div
-                        className={"relative min-h-64 md:min-h-96 col-span-1 md:col-span-4 row-span-1 md:row-span-3 bg-gray-500 rounded-2xl md:rounded-3xl shadow-md hover:shadow-2xl transition-shadow"}>
-                        <Image src={"/images/ValinomCluinata.png"} alt={"logo image"}
-                               className={"absolute rounded-2xl md:rounded-3xl"} objectFit={"cover"} fill></Image>
-                        <div
-                            className={"absolute w-full h-full rounded-2xl md:rounded-3xl opacity-30 dark:opacity-40 bg-black"}></div>
-                        <div
-                            className={"absolute w-full h-full rounded-2xl md:rounded-3xl flex flex-col hover:backdrop-blur-xs space-y-4 md:space-y-6 justify-center items-center transition-all duration-500"}>
-                            <div className={"pt-12 md:pt-24 text-white text-sm md:text-base"}>Thanks to LAMPLIGHT</div>
-                            <a download target="_blank" rel="noopener noreferrer"
-                               href={"//valinomcluinata.murasakiyamaimo.net/wp-content/uploads/2025/05/ValinomCluinata.zip"}>
-                                <button
-                                    className={"p-2 md:p-3 bg-white text-black rounded-lg text-sm md:text-base"}>ダウンロード
-                                </button>
-                            </a>
-                        </div>
-                    </div>
+                    <Download/>
 
                     {/*使い方*/}
-                    <HowToUse />
+                    <HowToUse/>
 
                     {/*About*/}
                     <Link href={"https://lamplight0.sakura.ne.jp/a/"} target={"_blank"}
