@@ -1,6 +1,6 @@
 import Link from "next/link";
-import HowToUse from "@/components/How to use";
-import Download from "@/components/Download";
+import LiquidGlassCard from "@/components/LiquidGlassCard";
+import LiquidGlassButton from "@/components/LiquidGlassButton";
 
 export default function Page(){
     return(
@@ -17,14 +17,38 @@ export default function Page(){
                     className={"w-full p-6 grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-5 gap-4 md:gap-6"}>
 
                     {/*ダウンロード*/}
-                    <Download/>
+                    <LiquidGlassCard
+                        backgroundImage={"/images/ValinomCluinata.png"}
+                        className={"h-96 col-span-1 md:col-span-4 row-span-1 md:row-span-3"}
+                    >
+                        <div className={"pt-12 md:pt-24 text-white text-sm md:text-base"}>Thanks to LAMPLIGHT</div>
+                        <Link
+                            href={"http://valinomcluinata.murasakiyamaimo.net/wp-content/uploads/2025/05/ValinomCluinata.zip"}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <LiquidGlassButton>ダウンロード</LiquidGlassButton>
+                        </Link>
+                    </LiquidGlassCard>
 
                     {/*使い方*/}
-                    <HowToUse/>
+                    <LiquidGlassCard
+                        backgroundImage={"/images/HowToUse.png"}
+                        className={"col-span-1 md:col-span-3 row-span-1 md:row-span-2"}
+                    >
+                        <div><h3 className="text-lg font-semibold mb-2">How to use</h3></div>
+                        <Link href={"/HowToUse"}>
+                            <LiquidGlassButton>使い方を見る</LiquidGlassButton>
+                        </Link>
+                    </LiquidGlassCard>
 
                     {/*About*/}
-                    <Link href={"https://lamplight0.sakura.ne.jp/a/"} target={"_blank"}
-                          className={"col-span-1 md:col-span-1 row-span-1 md:row-span-2 min-h-32 md:min-h-auto bg-gradient-to-br from-amber-200 to-amber-400 rounded-2xl md:rounded-3xl shadow-md hover:shadow-2xl transition-shadow"}>
+                    <Link
+                        href={"https://lamplight0.sakura.ne.jp/a/"}
+                        target={"_blank"}
+                        className={"col-span-1 md:col-span-1 row-span-1 md:row-span-2 min-h-32 md:min-h-auto bg-gradient-to-br from-amber-200 to-amber-400 rounded-2xl md:rounded-3xl shadow-md hover:shadow-2xl transition-shadow"}
+                    >
                         <div className={"h-full p-4 md:p-6 text-white flex flex-col justify-center items-center"}>
                             <div className={"text-lg md:text-3xl"}>About</div>
                             <div className={"text-lg md:text-3xl"}>LAMPLIGHT</div>
