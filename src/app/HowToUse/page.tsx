@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import LiquidGlassButton from "@/components/LiquidGlassButton";
-import Image from "next/image";
 
 // アプリケーションのメインコンポーネント
 const UsagePage: React.FC = () => {
