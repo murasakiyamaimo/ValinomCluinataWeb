@@ -1,6 +1,9 @@
+"use client"
+
 import Link from "next/link";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import LiquidGlassButton from "@/components/LiquidGlassButton";
+import HoverCard from "@/components/HoverCard";
 
 export default function Page(){
     return(
@@ -11,6 +14,7 @@ export default function Page(){
                     <div className={"w-full justify-end flex space-x-2 md:space-x-3"}>
                         <a download target="_blank" rel="noopener noreferrer" href={"//valinomcluinata.murasakiyamaimo.net/wp-content/uploads/2025/05/ValinomCluinata.zip"} className={"text-sm md:text-base font-bold"}>ダウンロード</a>
                         <Link href={"/editor"} className={"text-sm md:text-base font-bold"}>ブラウザ版</Link>
+                        <HoverCard><a className={"text-sm md:text-base font-bold"}>Takutompisa</a></HoverCard>
                     </div>
                 </header>
                 <main
@@ -37,7 +41,7 @@ export default function Page(){
                         backgroundImage={"/images/HowToUse.png"}
                         className={"col-span-1 md:col-span-3 row-span-1 md:row-span-2"}
                     >
-                        <div><h3 className="text-lg font-semibold mb-2">How to use</h3></div>
+                        <div><h3 className="text-white text-lg font-semibold mb-2">How to use</h3></div>
                         <Link href={"/HowToUse"}>
                             <LiquidGlassButton>使い方を見る</LiquidGlassButton>
                         </Link>
