@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import LiquidGlassButton from "@/components/LiquidGlassButton";
-import Image from "next/image";
 
 // アプリケーションのメインコンポーネント
 const UsagePage: React.FC = () => {
@@ -41,7 +40,7 @@ const UsagePage: React.FC = () => {
         },
         tab3: {
             heading: "次元ボタンによる操作",
-            description: "`Shift`キーで切り替えたモードによって、次元ボタンの役割が変わります。",
+            description: `<span class="kbd">Shift</span> キーで切り替えたモードによって、次元ボタンの役割が変わります。`,
             modes: [
                 {
                     title: "ルート音ピッチモード",
@@ -53,10 +52,10 @@ const UsagePage: React.FC = () => {
                 },
                 {
                     title: "子音符追加モード",
-                    explanation: "次元ボタンは選択された音符に<strong class='text-teal-700'>新しい子音符</strong>を追加します。",
+                    explanation: "次元ボタンは選択された音符に<strong class='text-teal-700'>新しい音符</strong>を追加します。",
                     actions: [
-                        "<span class='font-mono text-teal-700'>D2, D3...</span>: 上に子音符を追加します。",
-                        "<span class='font-mono text-teal-700'>D2_Down, D3_Down...</span>: 下に子音符を追加します。"
+                        "<span class='font-mono text-teal-700'>D2, D3...</span>: 上に音符を追加します。",
+                        "<span class='font-mono text-teal-700'>D2_Down, D3_Down...</span>: 下に音符を追加します。"
                     ]
                 }
             ]
@@ -250,7 +249,7 @@ const UsagePage: React.FC = () => {
                     <section id="editing-guide" className="mb-16">
                         <h2 className="text-3xl font-bold mb-6 text-center text-teal-700">和音図の編集方法</h2>
                         <p className="text-center text-stone-600 mb-8 max-w-3xl mx-auto">
-                            和音図の編集は、キーボードショートカットとマウス操作を組み合わせて行います。以下のタブを切り替えて、各操作の詳細を確認してください。これにより、複雑なコマンドも体系的に学ぶことができます。
+                            和音図の編集は、キーボードショートカットとマウス操作を組み合わせて行います。以下のタブを切り替えて、各操作の詳細を確認してください。
                         </p>
 
                         <div className="w-full max-w-4xl mx-auto">
