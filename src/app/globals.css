@@ -24,3 +24,33 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* WebKit系ブラウザのスクロールバーのトラック（背景） */
+#canvas-container::-webkit-scrollbar {
+  width: 12px; /* スクロールバーの幅 */
+  height: 12px; /* 水平スクロールバーの高さ */
+}
+
+/* スクロールバーのトラックの背景 */
+#canvas-container::-webkit-scrollbar-track {
+  background: #333; /* スクロールバーの背景色 */
+  border-radius: 10px; /* トラック自体も丸くする */
+}
+
+/* スクロールバーのツマミ */
+#canvas-container::-webkit-scrollbar-thumb {
+  background: #888; /* ツマミの色 */
+  border-radius: 10px; /* ツマミを丸くする */
+  border: 3px solid #333; /* ツマミとトラックの間に隙間を作る（背景色と同じにすると一体化する） */
+}
+
+/* ホバー時のツマミの色 */
+#canvas-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 角の隅の領域 (スクロールバーが交差する部分) */
+#canvas-container::-webkit-scrollbar-corner {
+  background: #333; /* コーナーの色をトラックの背景色と同じにする */
+  border-bottom-right-radius: 10px; /* 必要に応じて角を丸める */
+}

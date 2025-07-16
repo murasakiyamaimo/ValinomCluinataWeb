@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react';
 import Link from "next/link";
 import LiquidGlassCard from "@/components/LiquidGlassCard";
 import LiquidGlassButton from "@/components/LiquidGlassButton";
