@@ -5,11 +5,13 @@ interface Props{
     backgroundImage?: string,
     className?: string,
     children?: React.ReactNode | React.ReactNode[]
+    id?: string,
 }
 
-export default function LiquidGlassCard({backgroundImage,className,children}:Props) {
+export default function LiquidGlassCard({backgroundImage,className,children,id}:Props) {
     return(
         <div
+            id={id}
             className={`relative rounded-2xl md:rounded-3xl shadow-md hover:shadow-2xl transition-shadow duration-400 ${className}`}>
             {backgroundImage && <Image
                 src={backgroundImage}

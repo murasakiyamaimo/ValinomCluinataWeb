@@ -4,12 +4,19 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { X , Pause, Play } from 'lucide-react';
 import TreeNode from "../../utils/TreeNode";
 import Data from "../../utils/Data";
+import LiquidGlassCard from "@/components/LiquidGlassCard";
 
 interface PitchButtonProps {
   dimension: number;
   isUp: boolean;
   label: string;
   color: string;
+}
+
+declare global {
+  interface Window {
+    webkitAudioContext?: typeof AudioContext; // すべてのブラウザにあるわけではないので、オプションにする
+  }
 }
 
 const ValinomCluinataEditor: React.FC = () => {
@@ -48,10 +55,10 @@ const ValinomCluinataEditor: React.FC = () => {
       if (!ctx) return;
 
       // Initialize first root
-      const initialRootX: number[] = [30];
+      const initialRootX: number[] = [250];
       const initialRootY: number[] = [height / 2];
       const initialPitchData: TreeNode[] = [new TreeNode(new Data(0, true, false, rootFrequency))];
-      initialPitchData[0].setCoordinateX(60);
+      initialPitchData[0].setCoordinateX(280);
       initialPitchData[0].setCoordinateY(height / 2);
       const initialPitch: number[][] = [[0, 0, 0, 0, 0]];
 
@@ -491,15 +498,6 @@ const ValinomCluinataEditor: React.FC = () => {
       </button>
   );
 
-  useEffect(() => {
-    const pc = document.getElementById("pitch-controls");
-    const cc = document.getElementById("canvas-container");
-
-    if (pc && cc) {
-      cc.style.height = `${pc.offsetHeight}px`;
-    }
-  }, []);
-
   return (
       <div className="min-h-screen bg-gray-900 text-white">
         <div className="p-4">
@@ -543,38 +541,38 @@ const ValinomCluinataEditor: React.FC = () => {
             </select>
           </div>
 
-          <div className="flex flex-row gap-4 items-start">
-            {/* Pitch Controls */}
-            <div className="bg-gray-800 p-4 rounded-lg" id="pitch-controls">
-              <h3 className="text-lg font-semibold mb-4">コントロール</h3>
-              <div className="text-sm mb-2">モード: {isPitch ? 'ルート変更' : '音符を追加'}</div>
-              <div className="text-xs mb-4 text-gray-400">Shiftで切り替わります</div>
-
-              <div className="grid grid-cols-2 gap-2">
-                <PitchButton dimension={2} isUp={true} label="2D ↑" color="bg-pink-500" />
-                <PitchButton dimension={3} isUp={true} label="3D ↑" color="bg-green-500" />
-                <PitchButton dimension={4} isUp={true} label="4D ↑" color="bg-purple-500" />
-                <PitchButton dimension={5} isUp={true} label="5D ↑" color="bg-yellow-500" />
-
-                <PitchButton dimension={2} isUp={false} label="2D ↓" color="bg-pink-600" />
-                <PitchButton dimension={3} isUp={false} label="3D ↓" color="bg-green-600" />
-                <PitchButton dimension={4} isUp={false} label="4D ↓" color="bg-purple-600" />
-                <PitchButton dimension={5} isUp={false} label="5D ↓" color="bg-yellow-600" />
-              </div>
-            </div>
+          <div className="relative flex h-190">
 
             {/* Canvas */}
-            <div className="flex-1 bg-gray-800 rounded-lg overflow-auto self-stretch" id="canvas-container">
-              <div className="w-full">
-                <canvas
-                    ref={canvasRef}
-                    width={width}
-                    height={height}
-                    onClick={handleCanvasClick}
-                    className="cursor-crosshair"
-                    style={{ minWidth: '100%', minHeight: '100%' }}
-                />
-              </div>
+            <div className="absolute inset-0 rounded-lg overflow-auto self-stretch" id="canvas-container">
+              <canvas
+                  ref={canvasRef}
+                  width={width}
+                  height={height}
+                  onClick={handleCanvasClick}
+                  className="cursor-crosshair"
+              />
+            </div>
+
+            {/* Pitch Controls */}
+            <div className="absolute left-3 h-full rounded-lg overflow-auto self-stretch flex items-center justify-center">
+              <LiquidGlassCard className="rounded-lg " id="pitch-controls">
+                <h3 className="text-lg font-semibold mb-4">コントロール</h3>
+                <div className="text-sm mb-2">モード: {isPitch ? 'ルート変更' : '音符を追加'}</div>
+                <div className="text-xs mb-4 text-gray-400">Shiftで切り替わります</div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <PitchButton dimension={2} isUp={true} label="2D ↑" color="bg-pink-500"/>
+                  <PitchButton dimension={3} isUp={true} label="3D ↑" color="bg-green-500"/>
+                  <PitchButton dimension={4} isUp={true} label="4D ↑" color="bg-purple-500"/>
+                  <PitchButton dimension={5} isUp={true} label="5D ↑" color="bg-yellow-500"/>
+
+                  <PitchButton dimension={2} isUp={false} label="2D ↓" color="bg-pink-600"/>
+                  <PitchButton dimension={3} isUp={false} label="3D ↓" color="bg-green-600"/>
+                  <PitchButton dimension={4} isUp={false} label="4D ↓" color="bg-purple-600"/>
+                  <PitchButton dimension={5} isUp={false} label="5D ↓" color="bg-yellow-600"/>
+                </div>
+              </LiquidGlassCard>
             </div>
           </div>
 

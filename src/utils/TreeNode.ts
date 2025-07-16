@@ -39,18 +39,18 @@ class TreeNode {
 
     getIDPath() {
         const path: Array<number> = [];
-        let current: TreeNode | null = null;
+        let current: TreeNode | null = this;
         while (current !== null) {
-            path.unshift(this.id);
-            current = this.parent;
+            path.unshift(current.id);
+            current = current.parent;
         }
+
         return path;
     }
 
-    getRoot() {
-        let current: TreeNode | null = null;
-        while (this.parent !== null) {
-            current = this.parent;
+    getRoot(current: TreeNode) {
+        while (current.parent !== null) {
+            current = current.parent;
         }
         return current;
     }
@@ -81,11 +81,11 @@ class TreeNode {
         if (path.length === 1) return this;
 
         const remainingPath = path.slice(1);
-        let currentNode: TreeNode | null = null;
+        let currentNode: TreeNode | null = this;
 
         for (const id of remainingPath) {
-            let nextNode = null;
-            for (const child of this.children) {
+            let nextNode: TreeNode | null = null;
+            for (const child of currentNode.children) {
                 if (child.id === id) {
                     nextNode = child;
                     break;
