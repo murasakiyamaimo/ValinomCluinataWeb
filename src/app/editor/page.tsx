@@ -1,9 +1,12 @@
 "use client"
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { X , Pause, Play } from 'lucide-react';
+import {X, Pause, Play, Trash2, VolumeX, Volume2} from 'lucide-react';
 import TreeNode from "../../utils/TreeNode";
 import Data from "../../utils/Data";
+import Toolbar from "@/components/Toolbar";
+import Image from "next/image";
+import ToggleSwitch from "@/components/ToggleSwitch";
 
 interface PitchButtonProps {
   dimension: number;
@@ -23,6 +26,7 @@ const ValinomCluinataEditor: React.FC = () => {
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [currentGainNode, setCurrentGainNode] = useState<GainNode | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isMute, setMute] = useState<boolean>(false);
 
   // Initialize data
   const rootFrequency: number = Math.pow(2, 0.25) * 220;
@@ -80,6 +84,7 @@ const ValinomCluinataEditor: React.FC = () => {
     ctx.fillRect(0, 0, width, height);
 
     // Draw grid lines
+    ctx.setLineDash([])
     ctx.strokeStyle = '#a9a9b4';
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -99,25 +104,6 @@ const ValinomCluinataEditor: React.FC = () => {
     for (let i = 0; i < pitchDataArray.length; i++) {
       const rootXPos: number = rootXArray[i];
       const rootYPos: number = rootYArray[i];
-
-      // Redraw the background for this section
-      ctx.fillStyle = '#676681';
-      ctx.fillRect(rootXPos, 0, 233, height);
-
-      // Redraw grid lines for this section
-      ctx.strokeStyle = '#a9a9b4';
-      ctx.beginPath();
-      ctx.moveTo(rootXPos, height / 2);
-      ctx.lineTo(rootXPos + 233, height / 2);
-      ctx.stroke();
-
-      ctx.strokeStyle = '#8d8c9d';
-      for (let j = (height / 2) % 160; j < height; j += 160) {
-        ctx.beginPath();
-        ctx.moveTo(rootXPos, j);
-        ctx.lineTo(rootXPos + 233, j);
-        ctx.stroke();
-      }
 
       // Draw pitch data
       drawPitchRecursive(ctx, pitchDataArray[i]);
@@ -238,6 +224,7 @@ const ValinomCluinataEditor: React.FC = () => {
       const searchedNode = pitchData[i].searchCoordinate(x, y);
       if (searchedNode) {
         setSelectedPitchline(searchedNode.getIDPath());
+        setMute(searchedNode.data.isMuted)
         setSideIndex(i);
         console.log('Selected:', searchedNode.getIDPath());
 
@@ -317,68 +304,82 @@ const ValinomCluinataEditor: React.FC = () => {
     }
   };
 
+  const addChordDiagram = () => {
+    const newRootX: number[] = [...rootX, rootX[rootX.length - 1] + 233];
+    const newRootY: number[] = [...rootY, height / 2];
+    const newPitchNode = new TreeNode(new Data(0, true, false, rootFrequency));
+    newPitchNode.setCoordinateX(newRootX[newRootX.length - 1] + 30);
+    newPitchNode.setCoordinateY(newRootY[newRootY.length - 1]);
+
+    const newPitchData: TreeNode[] = [...pitchData, newPitchNode];
+    const newPitch: number[][] = [...pitch, [0, 0, 0, 0, 0]];
+
+    setRootX(newRootX);
+    setRootY(newRootY);
+    setPitchData(newPitchData);
+    setPitch(newPitch);
+
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        drawChordDiagram(ctx, newPitchData, newRootX, newRootY, [selectedPitchline], sideIndex);
+      }
+    }
+  }
+
+  const toggleMute = () => {
+    const selectedNode = pitchData[sideIndex]?.getNodeByPath(selectedPitchline);
+    if (selectedNode) {
+      selectedNode.data.setMuted(!selectedNode.data.isMuted);
+      setMute(selectedNode.data.isMuted);
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          drawChordDiagram(ctx, pitchData, rootX, rootY, [selectedPitchline], sideIndex);
+        }
+      }
+    }
+  }
+
+  const deleteNote = () => {
+    const selectedNode = pitchData[sideIndex]?.getNodeByPath(selectedPitchline);
+    if (selectedNode) {
+      const deleted = pitchData[sideIndex].removeNode(selectedNode);
+      if (!deleted) {
+        setError('ルート音は削除できません');
+      } else {
+        setSelectedPitchline(pitchData[sideIndex].getIDPath());
+        const canvas = canvasRef.current;
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            drawChordDiagram(ctx, pitchData, rootX, rootY, [pitchData[sideIndex].getIDPath()], sideIndex);
+          }
+        }
+      }
+    }
+  }
+
   const handleKeyDown = useCallback((event: KeyboardEvent): void => {
     if (event.ctrlKey) {
       if (event.key === 'ArrowRight') {
         event.preventDefault();
         console.log('Adding new root');
 
-        const newRootX: number[] = [...rootX, rootX[rootX.length - 1] + 233];
-        const newRootY: number[] = [...rootY, height / 2];
-        const newPitchNode = new TreeNode(new Data(0, true, false, rootFrequency));
-        newPitchNode.setCoordinateX(newRootX[newRootX.length - 1] + 30);
-        newPitchNode.setCoordinateY(newRootY[newRootY.length - 1]);
-
-        const newPitchData: TreeNode[] = [...pitchData, newPitchNode];
-        const newPitch: number[][] = [...pitch, [0, 0, 0, 0, 0]];
-
-        setRootX(newRootX);
-        setRootY(newRootY);
-        setPitchData(newPitchData);
-        setPitch(newPitch);
-
-        const canvas = canvasRef.current;
-        if (canvas) {
-          const ctx = canvas.getContext('2d');
-          if (ctx) {
-            drawChordDiagram(ctx, newPitchData, newRootX, newRootY, [selectedPitchline], sideIndex);
-          }
-        }
+        addChordDiagram();
       } else if (event.key === ' ') {
         event.preventDefault();
         // Toggle mute
-        const selectedNode = pitchData[sideIndex]?.getNodeByPath(selectedPitchline);
-        if (selectedNode) {
-          selectedNode.data.setMuted(!selectedNode.data.isMuted);
-          const canvas = canvasRef.current;
-          if (canvas) {
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-              drawChordDiagram(ctx, pitchData, rootX, rootY, [selectedPitchline], sideIndex);
-            }
-          }
-        }
+        toggleMute();
       }
     } else if (event.key === 'Shift') {
       setIsPitch(!isPitch);
     } else if (event.key === 'Delete') {
       event.preventDefault();
-      const selectedNode = pitchData[sideIndex]?.getNodeByPath(selectedPitchline);
-      if (selectedNode) {
-        const deleted = pitchData[sideIndex].removeNode(selectedNode);
-        if (!deleted) {
-          alert('ルート音は削除できません');
-        } else {
-          setSelectedPitchline(pitchData[sideIndex].getIDPath());
-          const canvas = canvasRef.current;
-          if (canvas) {
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-              drawChordDiagram(ctx, pitchData, rootX, rootY, [pitchData[sideIndex].getIDPath()], sideIndex);
-            }
-          }
-        }
-      }
+      deleteNote();
+
     }
   }, [isPitch, pitchData, rootX, rootY, selectedPitchline, sideIndex, pitch, height, rootFrequency]);
 
@@ -502,13 +503,43 @@ const ValinomCluinataEditor: React.FC = () => {
 
   return (
       <div className="min-h-screen bg-gray-900 text-white">
+        <Toolbar>
+          <div className="flex items-center justify-between gap-4">
+            <button
+                onClick={addChordDiagram}
+                className="flex items-center justify-center p-2 w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-full transition-colors">
+              <Image src={"/images/plus.png"} width={1024} height={1024} alt={''}/>
+            </button>
+            <button
+                onClick={() => {
+                  setMute(!isMute);
+                  toggleMute();
+                }}
+                className="flex items-center justify-center p-2 w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-full transition-colors">
+              { isMute ? <VolumeX/> : <Volume2/>}
+            </button>
+            <button
+                onClick={() => {deleteNote()}}
+                className="flex items-center justify-center p-2 w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-full transition-colors">
+              <Trash2/>
+            </button>
+          </div>
+        </Toolbar>
+
         <div className="p-4">
-          {error ? <div className="px-5 p-2 border border-white rounded-md bg-pink-700 flex justify-between ">
-            <a>Error: {error}</a>
+          {error && (<div className="
+                            fixed top-5 left-1/2 -translate-x-1/2 z-50
+                            px-5 p-2 border border-white rounded-md bg-pink-700 text-white
+                            flex justify-between items-center
+                            transition-opacity duration-500 ease-in
+                            opacity-0
+                          "
+                          style={{ opacity: error ? 1 : 0 }}>
+            <a>{error}</a>
             <button onClick={() => {
               setError(null)
             }}><X/></button>
-          </div> : <div />}
+          </div>)}
 
           <h1 className="py-2 text-2xl font-bold mb-1">ValinomCluinata Editor</h1>
 
@@ -545,10 +576,12 @@ const ValinomCluinataEditor: React.FC = () => {
 
           <div className="flex flex-row gap-4 items-start">
             {/* Pitch Controls */}
-            <div className="bg-gray-800 p-4 rounded-lg" id="pitch-controls">
+            <div className="bg-gray-800 p-4 border border-white rounded-lg" id="pitch-controls">
               <h3 className="text-lg font-semibold mb-4">コントロール</h3>
-              <div className="text-sm mb-2">モード: {isPitch ? 'ルート変更' : '音符を追加'}</div>
-              <div className="text-xs mb-4 text-gray-400">Shiftで切り替わります</div>
+              <div className="text-sm mb-2 flex items-center gap-2">
+                <ToggleSwitch onToggle={() => setIsPitch(!isPitch)}/> {isPitch ? 'ルート変更' : '音符を追加'}
+              </div>
+              <div className="text-xs mb-4 text-gray-400">Shiftでも切り替わります</div>
 
               <div className="grid grid-cols-2 gap-2">
                 <PitchButton dimension={2} isUp={true} label="2D ↑" color="bg-pink-500" />
@@ -579,7 +612,7 @@ const ValinomCluinataEditor: React.FC = () => {
           </div>
 
           {/* Instructions */}
-          <div className="mt-4 p-4 bg-gray-800 rounded-lg">
+          <div className="mt-4 p-4 bg-gray-800 border border-white rounded-lg">
             <h3 className="text-lg font-semibold mb-2">説明</h3>
             <div className="text-sm space-y-1 text-gray-300">
               <div>• <kbd className="bg-gray-700 px-2 py-1 rounded">Shift</kbd> - モードを切り替えます</div>
