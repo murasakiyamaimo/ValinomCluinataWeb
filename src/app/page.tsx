@@ -15,6 +15,7 @@ export default function Page(){
                     <div className={"w-full justify-end flex space-x-2 md:space-x-3"}>
                         <a download target="_blank" rel="noopener noreferrer" href={"/files/ValinomCluinata.zip"} className={"text-sm md:text-base font-bold"}>ダウンロード</a>
                         <Link href={"/editor"} className={"text-sm md:text-base font-bold"}>ブラウザ版</Link>
+                        <Link href={"/lisatoprogram"} className={"text-sm md:text-base font-bold"}>莉語プログラミング</Link>
                         <HoverCard><a className={"text-sm md:text-base font-bold"}>Takutompisa</a></HoverCard>
                     </div>
                 </header>
