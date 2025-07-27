@@ -9,7 +9,7 @@ interface CompilerResponse {
 // コンパイルと実行のロジックを関数としてエクスポート
 const compile = async (sourceCode: string): Promise<CompilerResponse> => {
     try {
-        const response = await fetch('http://api.murasakiyamaimo.net/compile', { // JavaバックエンドのURL
+        const response = await fetch('http://api.murasakiyamaimo.net/compile/', { // JavaバックエンドのURL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
