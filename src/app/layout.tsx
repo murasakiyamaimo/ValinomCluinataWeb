@@ -4,6 +4,7 @@ import "./globals.css";
 import React from 'react';
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import Script from 'next/script';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,12 +37,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
+    <head>
+        <script async
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6388660148359674"
+                crossOrigin="anonymous">
+        </script>
+    </head>
+    <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-        <Analytics />
-        <SpeedInsights />
+    >
+    {children}
+    <Analytics/>
+    <SpeedInsights />
       </body>
     </html>
   );
